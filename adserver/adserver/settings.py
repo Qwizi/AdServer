@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'djoser',
     'account',
-    'ads'
+    'ads',
+    'orders'
 ]
 
 MIDDLEWARE = [
