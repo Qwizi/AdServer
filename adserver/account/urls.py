@@ -7,8 +7,8 @@ router = routers.SimpleRouter()
 router.register(r'ads', views.AccountAdViewSet)
 
 ads_stats_view_router = routers.NestedSimpleRouter(router, r'ads', lookup='ad')
-ads_stats_view_router.register(r'view-stats', views.AccountAdStatsViewViewSet, basename='ad-view-stats')
-ads_stats_view_router.register(r'click-stats', views.AccountAdStatsClickViewSet, basename='ad-click-stats')
+ads_stats_view_router.register(r'views', views.AccountAdStatsViewViewSet, basename='ad-views')
+ads_stats_view_router.register(r'clicks', views.AccountAdStatsClickViewSet, basename='ad-clicks')
 
 urlpatterns = [
     path('', include(router.urls)),
