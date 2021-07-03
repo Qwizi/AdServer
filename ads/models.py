@@ -14,7 +14,7 @@ class Ad(models.Model):
     is_active = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.id} | {self.name} | {self.user.username}"
+        return f"{self.name} | {self.user.username}"
 
     def charge(self, value):
         self.balance += value
@@ -28,6 +28,9 @@ class AdStatsAbstract(models.Model):
 
     class Meta:
         abstract = True
+
+    def __str__(self):
+        return f"{self.ad.name} | {self.ip} | {self.country}"
 
 
 class AdStatsClick(AdStatsAbstract):
