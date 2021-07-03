@@ -23,7 +23,7 @@ class Ad(models.Model):
 class AdStatsAbstract(models.Model):
     ad = models.ForeignKey(Ad, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now=True)
-    ip = models.IPAddressField(null=True)
+    ip = models.GenericIPAddressField(null=True)
     country = models.CharField(max_length=64)
 
     class Meta:
