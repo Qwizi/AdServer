@@ -1,3 +1,5 @@
+from abc import ABC
+
 from rest_framework import serializers
 
 from .models import Ad
@@ -25,3 +27,7 @@ class AdUpdateSerializer(serializers.ModelSerializer):
                 'required': False
             },
         }
+
+
+class AdChargeSerializer(serializers.Serializer):
+    value = serializers.DecimalField(max_digits=6, decimal_places=2)
