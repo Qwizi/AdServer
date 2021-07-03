@@ -9,6 +9,7 @@ class Ad(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="ads")
     url = models.URLField()
     name = models.CharField(max_length=64)
+    banner = models.ImageField(upload_to='uploads/', null=True)
     balance = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
     is_active = models.BooleanField(default=False)
 
