@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'djoser',
     'account',
     'ads',
-    'orders'
+    'orders',
+    'payments'
 ]
 
 MIDDLEWARE = [
@@ -150,3 +151,5 @@ DJOSER = {
         'current_user': 'account.serializers.UserSerializer'
     }
 }
+
+STRIPE_KEY = env("STRIPE_KEY")

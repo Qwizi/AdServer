@@ -19,3 +19,5 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now=True, auto_created=True)
     stripe_id = models.CharField(max_length=255, null=True)
 
+    def __str__(self):
+        return f"{self.name} | {self.amount} | {self.user.username}"
