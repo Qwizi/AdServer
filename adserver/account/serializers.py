@@ -10,7 +10,7 @@ class WalletSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class AccountSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     wallet = WalletSerializer()
 
     class Meta:
