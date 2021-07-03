@@ -18,3 +18,21 @@ class Ad(models.Model):
 
     def charge(self, value):
         self.balance += value
+
+
+class AdStatsAbstract(models.Model):
+    ad = models.ForeignKey(Ad, on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now=True)
+    ip = models.IPAddressField(null=True)
+    country = models.CharField(max_length=64)
+
+    class Meta:
+        abstract = True
+
+
+class AdStatsClick(AdStatsAbstract):
+    pass
+
+
+class AdStatsView(AdStatsAbstract):
+    pass
