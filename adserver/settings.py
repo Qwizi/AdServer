@@ -152,4 +152,4 @@ DJOSER = {
     }
 }
 
-STRIPE_KEY = env("STRIPE_KEY")
+STRIPE_API_KEY = env("STRIPE_API_KEY")
