@@ -44,7 +44,8 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'djoser',
-    'account'
+    'account',
+    'ads'
 ]
 
 MIDDLEWARE = [
@@ -145,6 +146,6 @@ REST_FRAMEWORK = {
 
 DJOSER = {
     'SERIALIZERS': {
-        'current_user': 'account.serializers.AccountSerializer'
+        'current_user': 'account.serializers.UserSerializer'
     }
 }
