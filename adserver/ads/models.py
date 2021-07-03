@@ -15,3 +15,6 @@ class Ad(models.Model):
 
     def __str__(self):
         return f"{self.id} | {self.name} | {self.user.username}"
+
+    def charge(self, value):
+        self.balance += value
