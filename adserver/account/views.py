@@ -8,6 +8,8 @@ from account.exceptions import WalletNoFunds
 from ads.models import Ad, AdStatsView, AdStatsClick
 from ads.serializers import AdSerializer, AdUpdateSerializer, AdChargeSerializer, AdStatsViewSerializer, \
     AdStatsClickSerializer
+from orders.models import Order
+from orders.serializers import OrderSerializer
 
 
 class AccountAdViewSet(viewsets.ModelViewSet):
@@ -65,3 +67,21 @@ class AccountAdStatsClickViewSet(mixins.ListModelMixin, viewsets.GenericViewSet)
 
     def get_queryset(self):
         return AdStatsClick.objects.filter(ad__user=self.request.user, ad__id=self.kwargs['ad_pk'])
+
+
+class AccountOrdersViewSet(
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.DestroyModelMixin,
+    viewsets.GenericViewSet
+):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Order.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
