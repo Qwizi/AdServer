@@ -37,9 +37,17 @@ const CheckOutForm = () => {
 			card: card
 		});
 
+		console.log(paymentMethod)
+
 		const response = await axios.post("http://localhost:8000/api/payments/", {
-			payment_method_id: paymentMethod
-		})
+			payment_method_id: paymentMethod,
+		},
+			{
+				headers: {
+					Authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjI1NDM4NzY2LCJqdGkiOiJlZjdjMWYyOTk3NTA0NjUxODIzMmUxMTE1MTg1M2NlYyIsInVzZXJfaWQiOjN9.FaXwq1-Ka8tjQ77-EtcSerjFXqLRmjefjnEppzEH164',
+					"Content-type": "application/json"
+				}
+			})
 
 		console.log(response, error)
 	};
