@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+    'corsheaders',
     'djoser',
     'account',
     'ads',
@@ -51,6 +52,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -137,7 +139,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer', 'JWT'),
-    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(minutes=15),
+    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(minutes=720),
 }
 
 REST_FRAMEWORK = {
@@ -153,3 +155,5 @@ DJOSER = {
 }
 
 STRIPE_API_KEY = env("STRIPE_API_KEY")
+
+CORS_ALLOW_ALL_ORIGINS = True
