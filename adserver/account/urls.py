@@ -6,6 +6,7 @@ from . import views
 router = routers.SimpleRouter()
 router.register(r'ads', views.AccountAdViewSet)
 router.register(r'orders', views.AccountOrdersViewSet)
+router.register(r'payment-method', views.AccountPaymentMethodViewSet, basename='payment-method')
 
 ads_stats_view_router = routers.NestedSimpleRouter(router, r'ads', lookup='ad')
 ads_stats_view_router.register(r'views', views.AccountAdStatsViewViewSet, basename='ad-views')
