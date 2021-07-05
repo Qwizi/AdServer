@@ -1,3 +1,4 @@
+import stripe
 from rest_framework import viewsets, mixins
 from rest_framework import permissions
 from rest_framework.decorators import action
@@ -10,6 +11,9 @@ from ads.serializers import AdSerializer, AdUpdateSerializer, AdChargeSerializer
     AdStatsClickSerializer
 from orders.models import Order
 from orders.serializers import OrderSerializer
+from payments.exceptions import PaymentMethodAlreadySet
+from payments.serializers import CreatePaymentMethodSerializer
+from payments.stripe import create_customer, get_customer
 
 
 class AccountAdViewSet(viewsets.ModelViewSet):
@@ -85,3 +89,24 @@ class AccountOrdersViewSet(
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+
+class AccountPaymentMethodViewSet(viewsets.ViewSet):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def create(self, request):
+        serializer = CreatePaymentMethodSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        payment_method_id = serializer.validated_data['payment_method_id']
+
+        if request.user.wallet.customer_id is not None:
+            raise PaymentMethodAlreadySet
+
+        customer = create_customer(request.user.email, payment_method_id)
+
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+    def list(self, request):
+        data = stripe.PaymentMethod.list(customer=get_customer(request.user.email), type="card")
+        return Response(data=data.data, status=status.HTTP_200_OK)
+
