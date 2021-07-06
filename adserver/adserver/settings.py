@@ -13,6 +13,7 @@ import datetime
 from pathlib import Path
 
 import environ
+import django_heroku
 
 root = environ.Path(__file__)
 env = environ.Env()
@@ -157,3 +158,5 @@ DJOSER = {
 STRIPE_API_KEY = env("STRIPE_API_KEY")
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+django_heroku.settings(locals())
