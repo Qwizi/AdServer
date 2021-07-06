@@ -11,7 +11,7 @@ class Wallet(models.Model):
     def __str__(self):
         return f"{self.user.username} | {self.balance}"
 
-    def charge(self, value):
+    def recharge(self, value):
         self.balance += value
 
     def debit(self, value):

@@ -27,7 +27,7 @@ const CheckOutForm = () => {
         try {
             event.preventDefault();
             // @ts-ignore
-            const card = elements.getElement(CardElement);
+            /*const card = elements.getElement(CardElement);
 
             // add these lines
             // @ts-ignore
@@ -37,12 +37,12 @@ const CheckOutForm = () => {
                 card: card
             });
 
-            console.log(paymentMethod)
+            console.log(paymentMethod)*/
 
 
             const response = await axios.post("http://localhost:8000/api/payments/", {
                     // @ts-ignore
-                    payment_method_id: paymentMethod.id,
+                    //payment_method_id: paymentMethod.id,
                     order_id: "59302211-845e-4864-8a20-53b13f8ccc11"
                 },
                 {
@@ -60,11 +60,11 @@ const CheckOutForm = () => {
 
     return (
         <form onSubmit={handleSubmit} className="stripe-form">
-            <div className="form-row">
+            {/*<div className="form-row">
                 <label form="card-element">Credit or debit card</label>
                 <CardElement id="card-element" onChange={handleChange}/>
                 <div className="card-errors" role="alert">{error}</div>
-            </div>
+            </div>*/}
             <button type="submit" className="submit-btn">
                 Submit Payment
             </button>

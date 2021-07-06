@@ -1,9 +1,16 @@
+import json
+import locale
+import pprint
+from collections import namedtuple
+
 from django.conf import settings
 from django.core.exceptions import BadRequest
-from rest_framework import viewsets, permissions, status
+from django.shortcuts import get_object_or_404
+from rest_framework import viewsets, permissions, status, views
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
 from .stripe import stripe, create_customer, get_customer
 
 from orders.exceptions import InvalidOrder
@@ -11,10 +18,10 @@ from orders.models import Order, OrderStatus
 from payments.serializers import PaymentSerializer
 
 
-class PaymentsViewSet(viewsets.ViewSet):
+class PaymentsView(views.APIView):
     permission_classes = [permissions.IsAuthenticated]
 
-    def create(self, request):
+    def post(self, request):
         serializer = PaymentSerializer(data=request.data)
 
         if serializer.is_valid():
@@ -48,7 +55,31 @@ class PaymentsViewSet(viewsets.ViewSet):
             return Response(data={"status": "success"}, status=status.HTTP_200_OK)
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    @action(detail=False, methods=["POST"])
-    def webhook(self, request):
-        print(request.data)
+
+class PaymentsWebhookView(views.APIView):
+
+    def post(self, request):
+        data = request.data
+        event = namedtuple("Event", data.keys())(*data.values())
+
+        if event.type == "payment_intent.succeeded":
+            event_data = event.data['object']
+            order_id = event_data['metadata']['order_id']
+
+            order = get_object_or_404(Order, pk=order_id)
+
+            if order.status == OrderStatus.PAID:
+                raise InvalidOrder
+
+            formatted_amount = order.get_formatted_amount()
+
+            wallet = order.user.wallet
+            wallet.recharge(formatted_amount)
+            wallet.save()
+
+            order.status = OrderStatus.PAID
+            order.save()
+
+            print("Zakonczono platnosc")
+
         return Response(status=status.HTTP_204_NO_CONTENT)
