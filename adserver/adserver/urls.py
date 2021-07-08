@@ -24,4 +24,4 @@ urlpatterns = [
     path('api/auth/', include('djoser.urls.jwt')),
     path('api/account/', include('account.urls')),
     path('api/payments/', include('payments.urls'))
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+]
