@@ -1,16 +1,16 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Layout from 'Layouts';
 import Row from "@paljs/ui/Row";
 import Col from "@paljs/ui/Col";
 import {Card, CardBody} from "@paljs/ui/Card";
-import {loadStripe} from "@stripe/stripe-js/pure";
-import {CardElement, Elements, useElements, useStripe} from "@stripe/react-stripe-js";
-import axios from "axios";
+//import {loadStripe} from "@stripe/stripe-js/pure";
+//import {Elements, useElements, useStripe} from "@stripe/react-stripe-js";
+//import axios from "axios";
 
-const stripePromise = loadStripe('pk_test_CuwDopxPO5sBVADCFCPV5XO900f5T2YEBL');
+//const stripePromise = loadStripe('pk_test_CuwDopxPO5sBVADCFCPV5XO900f5T2YEBL');
 
 
-const CheckOutForm = () => {
+/*const CheckOutForm = () => {
     const [error, setError] = useState(null);
     const stripe = useStripe();
     const elements = useElements();
@@ -27,7 +27,7 @@ const CheckOutForm = () => {
         try {
             event.preventDefault();
             // @ts-ignore
-            /*const card = elements.getElement(CardElement);
+            /!*const card = elements.getElement(CardElement);
 
             // add these lines
             // @ts-ignore
@@ -37,7 +37,7 @@ const CheckOutForm = () => {
                 card: card
             });
 
-            console.log(paymentMethod)*/
+            console.log(paymentMethod)*!/
 
 
             const response = await axios.post("http://localhost:8000/api/payments/", {
@@ -60,17 +60,17 @@ const CheckOutForm = () => {
 
     return (
         <form onSubmit={handleSubmit} className="stripe-form">
-            {/*<div className="form-row">
+            {/!*<div className="form-row">
                 <label form="card-element">Credit or debit card</label>
                 <CardElement id="card-element" onChange={handleChange}/>
                 <div className="card-errors" role="alert">{error}</div>
-            </div>*/}
+            </div>*!/}
             <button type="submit" className="submit-btn">
                 Submit Payment
             </button>
         </form>
     )
-}
+}*/
 
 const Home = () => {
 
@@ -82,9 +82,7 @@ const Home = () => {
                     <Card>
                         <header>Testowa płatnosc kartą</header>
                         <CardBody>
-                            <Elements stripe={stripePromise}>
-                                <CheckOutForm/>
-                            </Elements>
+                            1
                         </CardBody>
                     </Card>
                 </Col>
