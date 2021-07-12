@@ -12,3 +12,34 @@ services:
       - POSTGRES_PASSWORD=postgres
     ports:
       - "5432:5432"
+  redis:
+    image: "redis:alpine"
+    hostname: redis
+    ports:
+      - "6379:6379"
+  web:
+    build: ./adserver
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./adserver/:/usr/src/app/
+    ports:
+      - 8000:8000
+    links:
+      - db
+    depends_on:
+      - redis
+      - db
+  celery:
+    build: ./adserver
+    command: celery -A adserver worker -l info
+    volumes:
+      - ./adserver/:/usr/src/app/
+    depends_on:
+      - redis
+  celery-beat:
+    build: ./adserver
+    command: celery -A adserver beat -l info
+    volumes:
+      - ./adserver/:/usr/src/app/
+    depends_on:
+      - redis

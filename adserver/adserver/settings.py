@@ -15,6 +15,7 @@ from pathlib import Path
 
 import environ
 import django_heroku
+from celery.schedules import crontab
 
 root = environ.Path(__file__)
 env = environ.Env()
@@ -46,6 +47,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'corsheaders',
+    'django_cron',
     'djoser',
     'account',
     'ads',
@@ -94,7 +96,7 @@ DATABASES = {
         'NAME': env('DB_NAME'),
         'USER': env('DB_USER'),
         'PASSWORD': env('DB_PASS'),
-        'HOST': '127.0.0.1',
+        'HOST': 'db',
         'PORT': '5432',
     }
 }
@@ -164,8 +166,21 @@ DJOSER = {
     }
 }
 
+CRON_CLASSES = [
+    "ads.cron.AdCronJob",
+]
+
 STRIPE_API_KEY = env("STRIPE_API_KEY")
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+CELERY_BROKER_URL = env("REDIS_URL")
+CELERY_BEAT_SCHEDULE = {
+    "deposit_ads": {
+        "task": "ads.tasks.deposit_ads",
+        "schedule": crontab(minute="*/1"),
+    },
+}
+
 
 django_heroku.settings(locals())
