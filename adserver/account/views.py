@@ -47,6 +47,7 @@ class AccountAdViewSet(viewsets.ModelViewSet):
 
             wallet.debit(value)
             ad.charge(value)
+            ad.is_active = True
 
             wallet.save()
             ad.save()

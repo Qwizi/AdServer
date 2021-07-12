@@ -1,5 +1,7 @@
 from abc import ABC
+from decimal import Decimal
 
+from django.core.validators import MinValueValidator
 from rest_framework import serializers
 
 from .models import Ad, AdStatsView
@@ -30,7 +32,7 @@ class AdUpdateSerializer(serializers.ModelSerializer):
 
 
 class AdChargeSerializer(serializers.Serializer):
-    value = serializers.DecimalField(max_digits=6, decimal_places=2)
+    value = serializers.DecimalField(max_digits=6, decimal_places=2, validators=[MinValueValidator(Decimal('1.00'))])
 
 
 class AdStatsViewSerializer(serializers.ModelSerializer):
