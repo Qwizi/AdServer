@@ -29,6 +29,10 @@ services:
     depends_on:
       - redis
       - db
+  front:
+    build: ./front
+    ports:
+      - 3000:3000
   celery:
     build: ./adserver
     command: celery -A adserver worker -l info
